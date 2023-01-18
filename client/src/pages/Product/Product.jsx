@@ -1,6 +1,8 @@
+import './Product.scss'
+
 const Product = () => {
     return (
-        <div>Product</div>
+        <div className='product'>Product</div>
     )
 }
 
