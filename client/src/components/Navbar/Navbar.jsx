@@ -7,8 +7,12 @@ import en from '../../assets/en.png'
 import payment from '../../assets/payment.png'
 import { Link } from 'react-router-dom';
 import './Navbar.scss'
+import { useState } from 'react';
+import Cart from '../Cart/Cart';
 
 const Navbar = () => {
+    const [open, setOpen] = useState(false)
+
     return (
         <div className="navbar">
             <div className="wrapper">
@@ -53,13 +57,14 @@ const Navbar = () => {
                         <SearchRoundedIcon />
                         <PersonOutlineRoundedIcon />
                         <FavoriteBorderRoundedIcon />
-                        <div className="cartIcon">
+                        <div className="cartIcon" onClick={() => setOpen(!open)}>
                             <ShoppingCartRoundedIcon />
                             <span>0</span>
                         </div>
                     </div>
                 </div>
             </div>
+            {open && <Cart />}
         </div>
     )
 }
