@@ -1,51 +1,41 @@
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import './Cart.scss'
+import {useSelector, useDispatch} from 'react-redux'
+import { removeItem, resetCart } from '../../redux/cartReducer';
 
 const Cart = () => {
+    const dispatch = useDispatch()
+    const products = useSelector(state => state.cart.products)
+    const totalPrice = () => {
+        let total = 0
+        products.forEach(element => {
+            total += element.quantity * element.price
+        });
 
-    const data = [
-        {
-            id: 1,
-            img: "https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            img1: "https://images.pexels.com/photos/1163194/pexels-photo-1163194.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            title: "Long Sleeve Graphic T-shirt",
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ullam consectetur veritatis repellendus, non amet praesentium incidunt omnis repellat? Dolor velit autem, eaque quibusdam maxime voluptatibus distinctio neque asperiores ratione.",
-            isNew: true,
-            oldPrice: 19,
-            price: 12
-        },
-        {
-            id: 2,
-            img: "https://images.pexels.com/photos/1759622/pexels-photo-1759622.jpeg?auto=compress&cs=tinysrgb&w=1600",
-            title: "Coat",
-            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis ullam consectetur veritatis repellendus, non amet praesentium incidunt omnis repellat? Dolor velit autem, eaque quibusdam maxime voluptatibus distinctio neque asperiores ratione.",
-            isNew: true,
-            oldPrice: 19,
-            price: 12
-        },
-    ];
+        return total.toFixed(2);
+    }
 
     return (
         <div className='cart'>
             <h1>Products in your cart</h1>
-            {data?.map((item, index) => (
+            {products?.map((item, index) => (
                 <div className='item' key={index}>
-                    <img src={item.img} alt="" />
+                    <img src={import.meta.env.VITE_REACT_APP_UPLOAD_URL + item.img} alt="" />
                     <div className="details">
                         <h1>{item.title}</h1>
                         <p>{item.desc?.substring(0, 100)}</p>
-                        <div className="price">1 x ${item.price}</div>
+                        <div className="price">{item.quantity} x ${item.price}</div>
                     </div>
-                    <DeleteOutlineRoundedIcon className='delete' />
+                    <DeleteOutlineRoundedIcon className='delete' onClick={() => dispatch(removeItem(item.id))} />
                 </div>
             ))}
             <div className="total">
                 <span>SUBTOTAL</span>
-                <span>$123</span>
+                <span>${totalPrice()}</span>
             </div>
 
             <button>PROCEES TO CHECKOUT</button>
-            <div className="reset">Reset Cart</div>
+            <div className="reset" onClick={() => dispatch(resetCart())}>Reset Cart</div>
         </div>
     )
 }

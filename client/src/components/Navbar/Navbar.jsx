@@ -4,14 +4,15 @@ import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import en from '../../assets/en.png'
-import payment from '../../assets/payment.png'
 import { Link } from 'react-router-dom';
 import './Navbar.scss'
 import { useState } from 'react';
 import Cart from '../Cart/Cart';
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
+    const products = useSelector(state => state.cart.products)
 
     return (
         <div className="navbar">
@@ -59,7 +60,7 @@ const Navbar = () => {
                         <FavoriteBorderRoundedIcon />
                         <div className="cartIcon" onClick={() => setOpen(!open)}>
                             <ShoppingCartRoundedIcon />
-                            <span>0</span>
+                            <span>{products.length}</span>
                         </div>
                     </div>
                 </div>
